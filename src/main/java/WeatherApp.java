@@ -17,9 +17,13 @@ public class WeatherApp {
         String weatherData = getWeatherData(city);
         double temperature = getTemperature(weatherData);
         int humidity = getHumidity(weatherData);
+        double windSpeed = getWindSpeed(weatherData);
+        String windDirection = getWindDirection(weatherData);
 
         System.out.println("The temperature in " + city + " is " + temperature);
         System.out.println("The humidity percentage in " + city + " is " + humidity);
+        System.out.println("The wind speed in " + city + " is " + windSpeed);
+        System.out.println("The wind direction in " + city + " is " + windDirection);
     }
 
     /**
@@ -60,6 +64,74 @@ public class WeatherApp {
         int answer = 0;
         JSONObject data = new JSONObject(weatherJson);
         answer = data.getJSONObject("current").getInt("humidity");
+        return answer;
+    }
+    public static double getWindSpeed(String weatherJson){
+        double answer = 0;
+        JSONObject data = new JSONObject(weatherJson);
+        answer = data.getJSONObject("current").getDouble("wind_kph");
+        return answer;
+    }
+    public static String getWindDirection(String weatherJson){
+        String answer = "";
+        JSONObject data = new JSONObject(weatherJson);
+        String direction = data.getJSONObject("current").getString("wind_dir");
+
+        // convert short-form directions to long ones.
+        if (direction.length() == 1) {
+            if (direction.equals("N")) {
+                answer = "north";
+            }
+            else if (direction.equals("S")) {
+                answer = "south";
+            }
+            else if (direction.equals("W")) {
+                answer = "west";
+            }
+            else if (direction.equals("E")) {
+                answer = "east";
+            }
+        }
+        else if (direction.length() == 2) {
+            if (direction.equals("NE")) {
+                answer = "northeast";
+            }
+            if (direction.equals("NW")) {
+                answer = "northwest";
+            }
+            if (direction.equals("SE")) {
+                answer = "southeast";
+            }
+            if (direction.equals("SW")) {
+                answer = "southwest";
+            }
+        }
+        else {
+            if (direction.equals("NNE")) {
+                answer = "north-northeast";
+            }
+            if (direction.equals("NNE")) {
+                answer = "north-northeast";
+            }
+            if (direction.equals("ENE")) {
+                answer = "east-northeast";
+            }
+            if (direction.equals("ESE")) {
+                answer = "east-southeast";
+            }
+            if (direction.equals("SSE")) {
+                answer = "south-southeast";
+            }
+            if (direction.equals("SSW")) {
+                answer = "south-southwest";
+            }
+            if (direction.equals("WSW")) {
+                answer = "west-southwest";
+            }
+            if (direction.equals("WNW")) {
+                answer = "west-northwest";
+            }
+        }
         return answer;
     }
 }
